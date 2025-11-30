@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    button{
+    width:100%;
+    height: 90px;
+    border-radius :30%;
+    background: black;
+    border-width:20px;
+    border-color:blue;
+    
+    }
+    h1{
+    color: gold;
+    }
+        .ig {
+            width: 49%;
+            border-radius: 50%;
+        }
+        .igg{
+         width: 49%;
+         border-radius: 50%;
+         }
+         body{
+         Background: black;
+         }
+         main{
+         width:100%;
+         background : gold;
+         }
+         
+    </style>
+</head>
+<body>
+<main>
+    <img onclick="
+    pMove = 'rock';
+    robotMove = rMove();
+    pc(robotMove);
+    result=game(pMove,robotMove);
+    calc(result);
+    alert(`you chose ${pMove}, computer chose ${robotMove}, result -> ${result}`);
+    showScore()
+    ss();
+    " src="R.jpg" class="ig"/>
+
+    <img onclick="
+    pMove = 'paper';
+    robotMove = rMove();
+    pc(robotMove);
+    result=game(pMove,robotMove);
+    calc(result);
+    alert(`you chose ${pMove}, computer chose ${robotMove}, result -> ${result}`);
+    showScore()
+    ss();
+    " src="P.jpg" class="ig"/>
+
+    <img onclick="
+    pMove = 'scissors';
+    robotMove = rMove();
+    pc(robotMove);
+    result=game(pMove,robotMove);
+    calc(result);
+    alert(`you chose ${pMove}, computer chose ${robotMove}, result -> ${result}`);
+    showScore()
+    ss();
+    " src="S.jpg" class="ig"/>
+
+    <img id='rmb' src="cm.jpg" class="igg" />
+    <p style="background :black;color:gold">your move by golden hands</p>
+    <h3>robot last move by <mark style="background :#3FBEFF">blue</mark></h3>
+</main>
+    <h1 id="wins">Win : </h1>
+    <h1 id="loses">Lose : </h1>
+    <h1 id="ties">Tie : </h1>
+    <button onclick="score = {
+    // lose : 0 ← مفقود فاصلة
+    win : 0,
+    lose : 0,
+    tie : 0,
+    };
+    localStorage.setItem('score',JSON.stringify(score));
+    showScore();"><h1>Remove Score</h1></button>
+
+    <script>
+    let h1 = document.getElementById('wins');
+    let h2 = document.getElementById('loses');
+    let h3 = document.getElementById('ties');
+
+    let rmButton = {
+    rock :'rr.jpg',
+    paper : 'rp.jpg',
+    scissors :'rs.jpg'
+    };
+
+    let score = JSON.parse(localStorage.getItem("score")) || {
+    // lose : 0 ← مفقود فاصلة
+    win : 0,
+    lose : 0,
+    tie : 0,
+    }
+    function ss(){
+    localStorage.setItem("score",JSON.stringify(score));
+    }
+
+    let robotMove = undefined;
+    let pMove = undefined;
+
+    // let result = game(); ← استدعاء بدون باراميترات
+    let result = game(pMove,robotMove);
+
+    function rMove(){
+    let rN = Math.floor(Math.random()*3)+1;
+    if (rN === 1){
+    return 'rock';
+    }else if(rN === 2){
+    return 'paper';
+    }else{
+    return 'scissors';
+    }
+    }
+
+    function rmB(rm){
+    let rmb= document.getElementById('rmb');
+    rmb.src= rm;
+    }
+
+    function pc(move){
+    if (move === 'rock'){
+    rmB(rmButton.rock);
+    }else if(move === 'paper'){
+    rmB(rmButton.paper);
+    }else{
+    rmB(rmButton.scissors);
+    }
+    }
+
+    function game(player,computer){
+    const p = player;
+    const c = computer;
+
+    if (p===c){
+    return 'tie';
+    }else if(
+        p === 'rock' && c === 'scissors' ||
+        p === 'scissors' && c === 'paper' ||
+        p === 'paper' && c === 'rock'
+    ){
+    return 'win';
+    }else{
+    return 'lose';
+    }
+    }
+
+    function calc(res){
+    if (res === 'tie'){
+    score.tie++;
+    }else if (res === 'win'){
+    score.win++;
+    }else{
+    score.lose++;
+    }
+    }
+
+    function showScore(){
+    // h1.textContent += `${score.win}`; ← يسبب تكرار الأرقام بدل تحديثها
+    h1.textContent = `Win : ${score.win}`;
+
+    // h2.textContent += `${score.lose}`;
+    h2.textContent = `Lose : ${score.lose}`;
+
+    // h3.textContent += `${score.tie}`;
+    h3.textContent = `Tie : ${score.tie}`;
+    }
+
+    showScore()
+   
+    </script>
+</body>
+</html>
